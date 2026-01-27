@@ -6,7 +6,10 @@ from api.errors import BadRequestError
 from schemas.request import (
     BaseRequest,
     APIMethod,
-    GetGroupsByOUParams
+    GetGroupsByOUParams,
+    GetUsersByGroupParams,
+    CreateGroupParams,
+    GetUserCertificatesParams
 )
 
 router = APIRouter(prefix="/execute", tags=["execute"])
@@ -36,35 +39,24 @@ def execute_operation(
      # Обработка в зависимости от метода
     if method == APIMethod.GET_GROUPS_BY_OU:
         params = GetGroupsByOUParams(**parameters)
-        result = "groooops"
-        return BaseResponse(data={"groups": result})
-    '''
+        result = "GetGroupsByOUParams"
+        return BaseResponse(data={"metod": result})
+    
     elif method == APIMethod.GET_USERS_BY_GROUP:
         params = GetUsersByGroupParams(**parameters)
-        result = ad_mock_service.get_users_by_group(
-            group_guid=params.group_guid,
-            domain=params.domain
-        )
-        return BaseResponse(data={"users": [u.model_dump() for u in result.users]})
-    
+        result = "GetUsersByGroupParams"
+        return BaseResponse(data={"metod": result})
+
     elif method == APIMethod.CREATE_GROUP:
         params = CreateGroupParams(**parameters)
-        result = ad_mock_service.create_group(
-            parent_dn=params.parent_dn,
-            cn=params.cn,
-            domain=params.domain,
-            description=params.description
-        )
-        return BaseResponse(data=result.model_dump())
+        result = "CreateGroupParams"
+        return BaseResponse(data={"metod": params})    
     
     elif method == APIMethod.GET_USER_CERTIFICATES:
         params = GetUserCertificatesParams(**parameters)
-        result = ad_mock_service.get_user_certificates(
-            user_guid=params.user_guid,
-            domain=params.domain
-        )
-        return BaseResponse(data={"certificates": [c.model_dump() for c in result.certificates]})
-    '''
+        result = "GetUserCertificatesParams"
+        return BaseResponse(data={"metod": result})   
+    
     # Этот код не должен выполняться, т.к. Pydantic уже валидирует метод
     raise BadRequestError(
         f"Неизвестный метод: {method}. "

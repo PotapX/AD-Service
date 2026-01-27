@@ -24,3 +24,33 @@ class GroupInfo(BaseModel):
 class GetGroupsResponse(BaseModel):
     """Ответ для получения групп."""
     groups: List[GroupInfo]
+
+class UserInfo(BaseModel):
+    """Модель информации о пользователе."""
+    objectGUID: str
+    sAMAccountName: str
+    userPrincipalName: str
+    userAccountControl: int
+    mail: str
+    distinguishedName: str
+    employeeNumber: str
+
+class GetUsersResponse(BaseModel):
+    """Ответ для получения пользователей."""
+    users: List[UserInfo]
+
+class CertificateInfo(BaseModel):
+    """Модель информации о сертификате."""
+    certificate_data: str = Field(description="Данные сертификата в base64")
+
+class GetCertificatesResponse(BaseModel):
+    """Ответ для получения сертификатов."""
+    certificates: List[CertificateInfo]
+
+class CreateGroupResponse(BaseModel):
+    """Ответ для создания группы."""
+    status: str
+    cn: str
+    sAMAccountName: str
+    objectGUID: str
+    distinguishedName: str    
