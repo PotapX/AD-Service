@@ -1,0 +1,35 @@
+from enum import Enum
+from typing import Dict, Any, Optional, List
+from pydantic import BaseModel, Field, field_validator, ConfigDict
+
+class APIMethod(str, Enum):
+    """Доступные методы API."""
+    GET_GROUPS_BY_OU = "get_groups_by_ou"
+    GET_USERS_BY_GROUP = "get_users_by_group"
+    CREATE_GROUP = "create_group"
+    GET_USER_CERTIFICATES = "get_user_certificates"
+
+class BaseRequest(BaseModel):
+    """Базовая модель запроса для всех операций."""
+    model_config = ConfigDict(extra="forbid")
+    
+    method: APIMethod = Field(
+        description="Метод API для выполнения",
+        examples=["get_groups_by_ou", "get_users_by_group"]
+    )
+    parameters: Dict[str, Any] = Field(
+        description="Параметры для выполнения метода"
+    )    
+
+class GetGroupsByOUParams(BaseModel):
+    """Параметры для получения групп по OU."""
+    model_config = ConfigDict(extra="forbid")
+    
+    ou_dn: str = Field(
+        min_length=3,
+        max_length=2000,
+        description="Distinguished Name организационного подразделения"
+    )
+    domain: str = Field(
+        description="Доменное имя"
+    )    
