@@ -28,43 +28,58 @@ class GetGroupsByOUParams(BaseModel):
     ou_dn: str = Field(
         min_length=3,
         max_length=2000,
-        description="Distinguished Name организационного подразделения"
+        description="DN организационного подразделения"
     )
     domain: str = Field(
-        description="Доменное имя"
+        description="Адрес домена"
     ) 
 
 class GetUsersByGroupParams(BaseModel):
     """Параметры для получения пользователей по группе."""
     model_config = ConfigDict(extra="forbid")
     
-    group_guid: str = Field(description="GUID группы")
-    domain: str = Field(description="Доменное имя")
+    group_dn: str = Field(description="DN группы")
+    
+    ou_dn: str = Field(
+        min_length=3,
+        max_length=2000,
+        description="DN организационного подразделения"
+        )
+    
+    domain: str = Field(description="Адрес домена")
 
 class CreateGroupParams(BaseModel):
     """Параметры для создания группы."""
     model_config = ConfigDict(extra="forbid")
     
-    parent_dn: str = Field(
-        min_length=3,
-        max_length=2000,
-        description="Distinguished Name родительского контейнера"
-    )
     cn: str = Field(
         min_length=1,
         max_length=64,
-        description="Common Name группы"
+        description="CN группы"
     )
     description: Optional[str] = Field(
         default=None,
         max_length=1024,
         description="Описание группы"
     )
-    domain: str = Field(description="Доменное имя")
+
+    ou_dn: str = Field(
+        min_length=3,
+        max_length=2000,
+        description="DN организационного подразделения"
+        )
+    
+    domain: str = Field(description="Адрес домена")
 
 class GetUserCertificatesParams(BaseModel):
     """Параметры для получения сертификатов пользователя."""
     model_config = ConfigDict(extra="forbid")
     
     user_guid: str = Field(description="GUID пользователя")
-    domain: str = Field(description="Доменное имя")               
+    
+    ou_dn: str = Field(
+        min_length=3,
+        max_length=2000,
+        description="DN организационного подразделения"
+        )
+    domain: str = Field(description="Адрес домена")               

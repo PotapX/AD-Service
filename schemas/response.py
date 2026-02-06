@@ -47,10 +47,11 @@ class GetCertificatesResponse(BaseModel):
     """Ответ для получения сертификатов."""
     certificates: List[CertificateInfo]
 
+class CreateGroupInfo(BaseModel):
+    """Информации о созданной группе."""
+    cn: str = Field(description="CN группы")
+    distinguishedName: str = Field(description="DN")
+
 class CreateGroupResponse(BaseModel):
     """Ответ для создания группы."""
-    status: str
-    cn: str
-    sAMAccountName: str
-    objectGUID: str
-    distinguishedName: str    
+    group: List[CreateGroupInfo]     

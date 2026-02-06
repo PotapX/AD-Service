@@ -10,3 +10,6 @@ dist/
 .cache/
 *.py,cover
 .vscode/
+logs/
+passwork.py
+conf.yml
